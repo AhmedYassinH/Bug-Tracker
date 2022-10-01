@@ -1,41 +1,31 @@
 
 
-const express = require('express');
 
+
+const express = require('express');
 
 const router = express.Router();
 
 
-
-
+const { getProjects, getTicketsAndMembers, createProject, closeProject, delProject} = require('../controllers/projectsControllers');
 
 
 // GET all Projects
-router.get('/',(req,res)=>{
-    res.json({mss:" GET all Projects"});
-});
+router.get('/',getProjects);
 
 // GET all tickets and members associated
-router.get('/:id',(req,res)=>{
-    res.json({mss:" GET all tickets and members"});
-});
+router.get('/:id',getTicketsAndMembers);
 
 
 // POST a new Project
-router.post('/:id',(req,res)=>{
-    res.json({mss:" POST a new Project"});
-});
+router.post('/',createProject);
 
 
 // PATCH Project's status to 'Close'
-router.patch('/:id',(req,res)=>{
-    res.json({mss:" Update a Project"});
-});
+router.patch('/:id',closeProject);
 
 // Delete a Project
-router.delete('/:id',(req,res)=>{
-    res.json({mss:" DELETE a Project"});
-});
+router.delete('/:id',delProject);
 
 
 

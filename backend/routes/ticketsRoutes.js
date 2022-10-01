@@ -1,30 +1,29 @@
 
+
+
 const express = require('express');
 
 const router = express.Router();
 
 
+
+const {getTicket, createTicket, updateTicket, delTicket} = require('../controllers/ticketsControllers');
+
+
+
+
 // GET the ticket Name, Status, Type, Team members
-router.get('/:id',(req,res)=>{
-    res.json({mss:" GET a ticket info"});
-});
+router.get('/:id',getTicket);
 
 
 // POST a Ticket(Name,Status,Type,Members if found)
-router.post('/:id',(req,res)=>{
-    res.json({mss:" POST a ticket info"});
-});
+router.post('/',createTicket);
 
 // PATCH a Ticket(Name,Status,Type,Members if found)
-router.patch('/:id',(req,res)=>{
-    res.json({mss:" UPDATE a ticket info"});
-});
+router.patch('/:id',updateTicket);
 
 // DELETE a Ticket(Name,Status,Type,Members if found)
-router.delete('/:id',(req,res)=>{
-    res.json({mss:" DELETE a ticket info"});
-});
-
+router.delete('/:id',delTicket);
 
 
 module.exports = router;

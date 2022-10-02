@@ -64,7 +64,7 @@ const TicketDetails = () => {
         <div key={comment.comment_id} className="project-details">
             <p><strong>Comment: </strong></p>
             <p>{comment.comment}</p>
-            <p><strong>By: </strong> {comment.name}</p>
+            {comment.name && <p><strong>By: </strong> {comment.name}</p>}
         </div>))}
         </div>
 

@@ -31,7 +31,7 @@ const getComments = async(req,res)=>{
 
     try{
         
-        const response = await pool.query('SELECT * from comments JOIN users ON comments.user_id = users.user_id WHERE ticket_id='+ id)
+        const response = await pool.query('SELECT * from comments LEFT JOIN users ON comments.user_id = users.user_id WHERE ticket_id='+ id)
         
         
         res.json({comments : response.rows});
@@ -41,6 +41,31 @@ const getComments = async(req,res)=>{
     }
 
 }
+
+
+// POST a Comment
+ 
+const createComment = async(req,res)=>{
+    const id = req.params.id;
+
+    const query = 'INSERT INTO comments (comment, ticket_id) VALUES (\''+req.body.comment + '\','+ id +')' ;
+    console.log('I am Here',query)
+
+    try{
+
+    const response = await pool.query(query);
+                                
+
+    res.json({res:"COMMENT CREATED"});
+    }catch(err){
+    res.status(404).json({error:err.message}) ;
+    }
+
+
+
+}
+
+
 
 
 
@@ -136,6 +161,7 @@ const delTicket = async(req,res)=>{
 module.exports = {
     getTicket,
     getComments,
+    createComment,
     createTicket,
     updateTicket,
     delTicket

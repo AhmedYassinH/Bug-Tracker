@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 
-const {getTicket, getComments, createTicket, updateTicket, delTicket} = require('../controllers/ticketsControllers');
+const {getTicket, getComments, createComment, createTicket, updateTicket, delTicket} = require('../controllers/ticketsControllers');
 
 
 
@@ -16,7 +16,10 @@ const {getTicket, getComments, createTicket, updateTicket, delTicket} = require(
 router.get('/:id',getTicket);
 
 // GET Comments
-router.get('/comments/:id',getComments)
+router.get('/comments/:id',getComments);
+
+// POST a Comment
+router.post('/comment/:id' , createComment);
 
 
 // POST a Ticket(Name,Status,Type,Members if found)

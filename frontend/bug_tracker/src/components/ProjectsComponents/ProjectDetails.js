@@ -1,8 +1,8 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Ticket from "./Ticket";
-import TicketForm from "./TicketForm"
+import Ticket from "../TicketsComponents/Ticket";
+import TicketForm from "../TicketsComponents/TicketForm"
 
 
 const ProjectDetails = () => {

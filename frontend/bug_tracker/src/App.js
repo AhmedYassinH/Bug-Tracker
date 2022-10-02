@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
-import ProjectDetails from './components/ProjectDetails';
-import TicketDetails from './components/TicketDetails';
+import ProjectDetails from './components/ProjectsComponents/ProjectDetails';
+import TicketDetails from './components/TicketsComponents/TicketDetails';
 
 function App() {
   return (

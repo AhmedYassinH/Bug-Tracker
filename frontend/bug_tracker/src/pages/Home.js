@@ -1,6 +1,6 @@
 
-import ProjectForm from "../components/ProjectForm";
-import Projects from "../components/Projects";
+import ProjectForm from "../components/ProjectsComponents/ProjectForm";
+import Projects from "../components/ProjectsComponents/Projects";
 import { useEffect, useState } from "react";
 
 

@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 
-const ProjectForm = (id) => {
+const TicketForm = (id) => {
     
     const project_id = id.id
 
@@ -70,4 +70,4 @@ const ProjectForm = (id) => {
   )
 }
 
-export default ProjectForm ;
+export default TicketForm ;

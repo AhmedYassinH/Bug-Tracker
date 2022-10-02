@@ -22,6 +22,32 @@ const getTicket = async(req,res)=>{
 }
 
 
+
+// GET Comments and who wrote them
+const getComments = async(req,res)=>{
+
+
+    const id = req.params.id;
+
+    try{
+        
+        const response = await pool.query('SELECT * from comments JOIN users ON comments.user_id = users.user_id WHERE ticket_id='+ id)
+        
+        
+        res.json({comments : response.rows});
+
+    }catch(err){
+        res.status(404).json({error:err.message})
+    }
+
+}
+
+
+
+
+
+
+
 // POST a Ticket(Name,Status,Type,Members if found)
 
 const createTicket = async(req,res)=>{
@@ -109,6 +135,7 @@ const delTicket = async(req,res)=>{
 
 module.exports = {
     getTicket,
+    getComments,
     createTicket,
     updateTicket,
     delTicket

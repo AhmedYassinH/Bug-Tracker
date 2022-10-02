@@ -10,10 +10,10 @@ const getTicket = async(req,res)=>{
 
     try{
         
-        const response = await pool.query('SELECT * from tickets WHERE ticket_id='+ id);
+        const response = await pool.query('SELECT * from tickets WHERE ticket_id='+ id)
         
         
-        res.json({projects : response.rows});
+        res.json({ticket : response.rows});
 
     }catch(err){
         res.status(404).json({error:err.message})
@@ -28,14 +28,13 @@ const createTicket = async(req,res)=>{
     
     
 
-    let query = 'INSERT INTO tickets  (name'
-                +(req.body.project_id? (', project_id'):'')
+    let query = 'INSERT INTO tickets  (name, project_id'
                 +(req.body.user_id? (', user_id'):'') 
                 +(req.body.status? (', status'):'')
                 +(req.body.type? (', type'):'')
                 + ') VALUES ('
                 +' \''+req.body.name+ '\''
-                +(req.body.project_id? (', \''+req.body.project_id+ '\''):'') 
+                +', \''+req.body.project_id+ '\'' 
                 +(req.body.user_id? (', \''+req.body.user_id+ '\''):'')
                 +(req.body.status? (', \''+req.body.status+ '\''):'') 
                 +(req.body.type? (', \''+req.body.type+ '\''):'') 

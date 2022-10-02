@@ -7,7 +7,7 @@ const express = require('express');
 const router = express.Router();
 
 
-const { getProjects, getTicketsAndMembers, createProject, closeProject, delProject} = require('../controllers/projectsControllers');
+const { getProjects, getTicketsAndMembers, getTeam, createProject, closeProject, delProject} = require('../controllers/projectsControllers');
 
 
 // GET all Projects
@@ -15,6 +15,9 @@ router.get('/',getProjects);
 
 // GET all tickets and members associated
 router.get('/:id',getTicketsAndMembers);
+
+// GET Project Team
+router.get('/team/:id',getTeam) ;
 
 
 // POST a new Project

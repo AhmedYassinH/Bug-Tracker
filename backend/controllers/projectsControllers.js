@@ -46,6 +46,31 @@ const getTicketsAndMembers = async (req,res)=>{
 
 }
 
+// GET Project Team
+const getTeam = async(req,res) => {
+
+    const id = req.params.id ;
+
+    const query = 'SELECT name FROM relations JOIN users ON relations.user_id = users.user_id WHERE project_id ='+id
+    
+
+    try{
+        
+        const team = await pool.query(query);
+        
+        res.json({team : team.rows});
+    }catch(err){
+        res.status(404).json({error:err.message})
+    }
+
+
+}
+
+
+
+
+
+
 // POST a new Project
 const createProject =async (req,res)=>{
 
@@ -66,9 +91,6 @@ const createProject =async (req,res)=>{
     }catch(err){
         res.status(404).json({error:err.message})
     }
-
-
-
 
 }
 
@@ -118,6 +140,7 @@ const delProject = async(req,res)=>{
 module.exports = {
     getProjects,
     getTicketsAndMembers,
+    getTeam,
     createProject,
     closeProject,
     delProject

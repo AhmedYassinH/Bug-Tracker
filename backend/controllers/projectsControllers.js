@@ -46,6 +46,84 @@ const getTicketsAndMembers = async (req,res)=>{
 
 }
 
+
+
+// GET all users
+const getUsers = async(req,res) => {
+    
+
+    const query = 'SELECT user_id, name, email, role  FROM users'
+    
+
+    try{
+        
+        const users = await pool.query(query);
+        
+        
+        res.json({users : users.rows});
+    }catch(err){
+        res.status(404).json({error:err.message})
+    }
+
+
+}
+
+// Add user to a team
+const addUser =async (req,res)=>{
+
+    const project_id = req.params.id;
+    const user_id = req.body.user_id;
+
+    const add_query = 'INSERT INTO relations ( project_id , user_id) VALUES ('
+                       +project_id+', '
+                       +'\''+user_id + '\''
+                       + ')'
+
+    const check_query = 'SELECT relations.user_id FROM relations JOIN users ON relations.user_id = users.user_id WHERE project_id ='+project_id
+    
+    try{
+        
+        const check_response = await pool.query(check_query );
+
+        const check_existence = (user_id, response) => {
+            let i;
+            for (i = 0; i < response.length; i++) {
+                
+                if (response[i].user_id === user_id) {
+                    
+                    return true;
+                    
+                }
+            }
+        
+            return false;
+        }
+
+       if(check_existence(user_id, check_response.rows)){
+
+        throw Error('user already in the team')
+       }
+
+        
+        
+
+
+        const response = await pool.query(add_query);
+
+        
+        
+        res.json({res:"Added user to the team"});
+    }catch(err){
+        res.status(404).json({error:err.message})
+    }
+
+}
+
+
+
+
+
+
 // GET Project Team
 const getTeam = async(req,res) => {
 
@@ -154,7 +232,9 @@ module.exports = {
     getTeam,
     createProject,
     closeProject,
-    delProject
+    delProject,
+    getUsers,
+    addUser
 
 }
 

@@ -8,7 +8,9 @@ const requireAuth = require('../middleware/requireAuth')
 const router = express.Router();
 
 
-const { getProjects, getTicketsAndMembers, getTeam, createProject, closeProject, delProject} = require('../controllers/projectsControllers');
+const { getProjects, getTicketsAndMembers, getTeam, 
+    createProject, closeProject, delProject,
+     getUsers, addUser} = require('../controllers/projectsControllers');
 
 
 
@@ -18,8 +20,19 @@ router.use(requireAuth)
 // GET all Projects
 router.get('/',getProjects);
 
+
+// GET all users
+router.get('/users',getUsers);
+
+// Add user to a team
+router.post('/add-user/:id',addUser);
+
+
+
 // GET all tickets and members associated
 router.get('/:id',getTicketsAndMembers);
+
+
 
 // GET Project Team
 router.get('/team/:id',getTeam) ;

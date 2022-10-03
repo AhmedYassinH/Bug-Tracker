@@ -54,8 +54,8 @@ const Project = ({project}) => {
         <p><strong>Description: </strong>{project.description} </p>
         <p><strong>Status: </strong> {project.status} </p>
 
-        <span className="update" onClick={handleUpdate} >Closed</span>
-        <span className = "delete" onClick={handleDelete}>Delete</span>
+        <span className="update" onClick={handleUpdate} >CLOSE</span>
+        <span className = "delete" onClick={handleDelete}>DELETE</span>
 
     </div>
      );

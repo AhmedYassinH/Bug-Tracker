@@ -4,13 +4,15 @@
 const express = require('express');
 
 const router = express.Router();
+const requireAuth = require('../middleware/requireAuth')
 
 
 
 const {getTicket, getComments, createComment, createTicket, updateTicket, delTicket} = require('../controllers/ticketsControllers');
 
 
-
+// require authentication for all tickets routes
+router.use(requireAuth)
 
 // GET the ticket Name, Status, Type, Team members
 router.get('/:id',getTicket);

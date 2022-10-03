@@ -3,12 +3,17 @@
 
 
 const express = require('express');
+const requireAuth = require('../middleware/requireAuth')
 
 const router = express.Router();
 
 
 const { getProjects, getTicketsAndMembers, getTeam, createProject, closeProject, delProject} = require('../controllers/projectsControllers');
 
+
+
+// require authentication for all project routes
+router.use(requireAuth)
 
 // GET all Projects
 router.get('/',getProjects);

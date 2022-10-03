@@ -3,14 +3,21 @@ import ProjectForm from "../components/ProjectsComponents/ProjectForm";
 import Projects from "../components/ProjectsComponents/Projects";
 import { useEffect, useState } from "react";
 
+import { useAuthContext } from '../hooks/useAuthContext';
+
 
 const Home = () => {
 
     const [projects , setProjects] = useState(null);
 
+    const { user } = useAuthContext()
+
     useEffect(()=>{
+        console.log(user.token)
         const fetchProjects = async ()=>{
-            const response = await fetch('/api/projects');
+            const response = await fetch('/api/projects', {
+                headers: {'Authorization': `Bearer ${user.token}`},
+              });
             const json = await response.json();
 
             if(response.ok){
@@ -18,7 +25,9 @@ const Home = () => {
                 
             }}
 
-        fetchProjects();
+            if (user) {
+                fetchProjects()
+              }
     },[])
 
 

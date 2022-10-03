@@ -83,6 +83,10 @@ const createProject =async (req,res)=>{
                 + ')'
 
     try{
+
+        if (req.user.rows[0].role != 'ADMIN'){
+            throw Error ("You Need to an ADMIN to create a project ")
+        }
         
         const response = await pool.query(query );
         
@@ -102,7 +106,10 @@ const closeProject = async(req,res)=>{
 
 
     try{
-        
+        if (req.user.rows[0].role != 'ADMIN'){
+            throw Error ("You Need to be an ADMIN to modify a project ")
+        }
+
         const response = await pool.query(query);
         
        
@@ -124,6 +131,10 @@ const delProject = async(req,res)=>{
     const query = 'DELETE FROM projects WHERE project_id='+ id
 
     try{
+
+        if (req.user.rows[0].role != 'ADMIN'){
+            throw Error ("You Need to be an ADMIN to delete a project ")
+        }
         
         const response = await pool.query(query);
         

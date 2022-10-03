@@ -5,12 +5,14 @@ const Signup = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
+  const [role, setRole] = useState('')
+
   const {signup, error, isLoading} = useSignup()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    await signup(name, email, password)
+    await signup(name, email, password,role)
   }
 
   return (
@@ -36,6 +38,26 @@ const Signup = () => {
         value={password} 
       />
 
+    <br />
+    <div className="CheckBox">
+        <input type="checkbox"
+        value="USER"
+        onChange={(e)=> setRole(e.target.value)}
+        checked = {role==='USER'? true:false }
+        />
+        <label> USER </label>
+
+
+        <input type="checkbox"
+        value="ADMIN"
+        onChange={(e)=> setRole(e.target.value)}
+        checked = {role==='ADMIN'? true:false }
+        
+        />
+        <label> ADMIN </label>
+        
+      </div>
+        
       <button disabled={isLoading}>Sign up</button>
       {error && <div className="error">{error}</div>}
     </form>

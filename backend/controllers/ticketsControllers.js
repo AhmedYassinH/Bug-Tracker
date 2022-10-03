@@ -47,9 +47,13 @@ const getComments = async(req,res)=>{
  
 const createComment = async(req,res)=>{
     const id = req.params.id;
-
-    const query = 'INSERT INTO comments (comment, ticket_id) VALUES (\''+req.body.comment + '\','+ id +')' ;
-    console.log('I am Here',query)
+    const user_id = req.user.rows[0].user_id
+    const query = 'INSERT INTO comments (comment, ticket_id, user_id) VALUES (\''
+    +req.body.comment + '\','
+    + id + ','
+    + '\'' + user_id + '\'' 
+    +')' ;
+    console.log('I am Here',user_id)
 
     try{
 
@@ -77,16 +81,16 @@ const createComment = async(req,res)=>{
 
 const createTicket = async(req,res)=>{
     
-    
+    const user_id = req.user.rows[0].user_id ;
 
     let query = 'INSERT INTO tickets  (name, project_id'
-                +(req.body.user_id? (', user_id'):'') 
+                +(user_id? (', user_id'):'') 
                 +(req.body.status? (', status'):'')
                 +(req.body.type? (', type'):'')
                 + ') VALUES ('
                 +' \''+req.body.name+ '\''
                 +', \''+req.body.project_id+ '\'' 
-                +(req.body.user_id? (', \''+req.body.user_id+ '\''):'')
+                +(user_id? (', \''+user_id+ '\''):'')
                 +(req.body.status? (', \''+req.body.status+ '\''):'') 
                 +(req.body.type? (', \''+req.body.type+ '\''):'') 
                 + ')'
@@ -95,6 +99,10 @@ const createTicket = async(req,res)=>{
 
     try{
         
+        if (req.user.rows[0].role != 'ADMIN'){
+            throw Error ("You Need to an ADMIN to create a ticket ")
+        }
+
         const response = await pool.query(query);
                                         
         
@@ -124,6 +132,7 @@ const updateTicket = async(req,res)=>{
 
     try{
         
+
         const response = await pool.query(query);
         
         
@@ -144,6 +153,9 @@ const delTicket = async(req,res)=>{
     
 
     try{
+        if (req.user.rows[0].role != 'ADMIN'){
+            throw Error ("You Need to an ADMIN to delete a ticket ")
+        }
         
         const response = await pool.query(query);
         

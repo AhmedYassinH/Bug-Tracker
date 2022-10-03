@@ -55,8 +55,8 @@ const loginUser = async (req, res) => {
 
 // signup a user
 const signupUser = async (req, res) => {
-  const {name,email, password} = req.body;
-  const signup = async(email,password) => {
+  const {name,email, password,role} = req.body;
+  const signup = async(name,email,password,role) => {
       // validation
         if (!email || !password || !name) {
             throw Error('All fields must be filled')
@@ -77,17 +77,20 @@ const signupUser = async (req, res) => {
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(password, salt)
 
-        const query = await pool.query('INSERT INTO users (user_id ,name,email,password) VALUES (uuid_generate_v4(),\''
+        const query = await pool.query('INSERT INTO users (user_id ,name,email,password,role) VALUES (uuid_generate_v4(),\''
                                      + name + '\',\''
                                      + email+ '\',\''
-                                     + hash + '\')');
+                                     + hash + '\''
+                                     + (role? (', \''
+                                     +role+ '\''):'\'USER\'')
+                                     +')');
         const response = await pool.query('SELECT * FROM users WHERE email = \''+email+'\'');
 
         return response
   }
 
   try {
-    const response = await signup(email, password)
+    const response = await signup(name,email, password,role)
 
     // create a token
     const token = createToken(response.rows[0].user_id)

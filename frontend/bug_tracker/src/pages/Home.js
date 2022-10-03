@@ -28,7 +28,7 @@ const Home = () => {
             if (user) {
                 fetchProjects()
               }
-    },[])
+    },[user])
 
 
     console.log(projects)

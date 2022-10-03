@@ -56,7 +56,7 @@ const Ticket = ({ticket}) => {
         <p><strong>Status: </strong>{ticket.status} </p>
         <p><strong>Type: </strong> {ticket.type} </p>
 
-        <span className="update"  >CLOSE</span>
+        
         <span className = "delete" onClick={handleDelete}>Delete</span>
 
     </div>

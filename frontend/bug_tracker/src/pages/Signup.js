@@ -1,21 +1,28 @@
 import { useState } from "react"
-
+import { useSignup } from "../hooks/useSignup"
 
 const Signup = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
+  const [name, setName] = useState('')
+  const {signup, error, isLoading} = useSignup()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-
+    await signup(name, email, password)
   }
 
   return (
     <form className="signup" onSubmit={handleSubmit}>
       <h3>Sign Up</h3>
       
+      <label>User Name:</label>
+      <input 
+        type="text" 
+        onChange={(e) => setName(e.target.value)} 
+        value={name} 
+      />
       <label>Email address:</label>
       <input 
         type="email" 
@@ -29,8 +36,8 @@ const Signup = () => {
         value={password} 
       />
 
-      <button disabled >Sign up</button>
-
+      <button disabled={isLoading}>Sign up</button>
+      {error && <div className="error">{error}</div>}
     </form>
   )
 }

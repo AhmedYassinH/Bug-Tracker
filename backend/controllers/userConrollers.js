@@ -77,20 +77,20 @@ const signupUser = async (req, res) => {
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(password, salt)
 
-        const query = await pool.query('INSER INTO users (name,email,password) VALUES (\''
+        const query = await pool.query('INSERT INTO users (user_id ,name,email,password) VALUES (uuid_generate_v4(),\''
                                      + name + '\',\''
                                      + email+ '\',\''
-                                     + password + '\')');
-        const res = await pool.query('SELECT * FROM users WHERE email = \''+email+'\'');
+                                     + hash + '\')');
+        const response = await pool.query('SELECT * FROM users WHERE email = \''+email+'\'');
 
-        return res
+        return response
   }
 
   try {
-    const res = await signup(email, password)
+    const response = await signup(email, password)
 
     // create a token
-    const token = createToken(res.rows[0].user_id)
+    const token = createToken(response.rows[0].user_id)
 
     res.status(200).json({name, token})
   } catch (error) {

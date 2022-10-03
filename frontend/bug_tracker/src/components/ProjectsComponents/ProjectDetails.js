@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Ticket from "../TicketsComponents/Ticket";
-import TicketForm from "../TicketsComponents/TicketForm"
+import TicketForm from "../TicketsComponents/TicketForm";
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 
 const ProjectDetails = () => {
@@ -11,10 +12,14 @@ const ProjectDetails = () => {
     const [team, setTeam] = useState(null);
     const [tickets, setTickets] = useState(null);
 
+    const { user } = useAuthContext()
+
     useEffect(()=>{
 
         const fetchTickets = async()=>{
-            const response = await fetch('/api/projects/'+ id);
+            const response = await fetch('/api/projects/'+ id, {
+                headers: {'Authorization': `Bearer ${user.token}`},
+              });
             const json    = await response.json();
 
             if(response.ok){
@@ -24,30 +29,33 @@ const ProjectDetails = () => {
 
 
         }
-        fetchTickets();
+        if (user) {
+            fetchTickets()
+          }
 
-    },[])
+    },[user,id])
 
     useEffect(()=>{
 
         const fetchTeam = async()=>{
-            const response = await fetch('/api/projects/team/'+ id);
+            const response = await fetch('/api/projects/team/'+ id,{
+                headers: {'Authorization': `Bearer ${user.token}`},
+              });
             const json    = await response.json();
 
             if(response.ok){
                 setTeam(json.team);
-                
-                
             }
-
-
         }
-        fetchTeam();
 
-    },[])
 
-    console.log(tickets);
-    console.log(team);
+        if (user) {
+            fetchTeam()
+          }
+
+    },[user,id])
+
+
 
     return ( 
         <div className="home">

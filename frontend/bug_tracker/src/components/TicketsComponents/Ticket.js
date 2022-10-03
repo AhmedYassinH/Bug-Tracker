@@ -2,13 +2,22 @@
 
 
 import { Link } from "react-router-dom";
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 
 const Ticket = ({ticket}) => {
 
+    const { user } = useAuthContext()
+
     const handleUpdate = (async()=> {
+        if (!user) {
+            return
+          }
         const response = await fetch('/api/tickets/'+ ticket.ticket_id,{
             method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
         })
 
         const json = await response.json();
@@ -18,8 +27,15 @@ const Ticket = ({ticket}) => {
     })
 
     const handleDelete = (async()=> {
+        if (!user) {
+            return
+          }
+
         const response = await fetch('/api/tickets/'+ ticket.ticket_id,{
             method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
         })
 
         const json = await response.json();
@@ -40,7 +56,7 @@ const Ticket = ({ticket}) => {
         <p><strong>Status: </strong>{ticket.status} </p>
         <p><strong>Type: </strong> {ticket.type} </p>
 
-        <span className="update"  >Closed</span>
+        <span className="update"  >CLOSE</span>
         <span className = "delete" onClick={handleDelete}>Delete</span>
 
     </div>

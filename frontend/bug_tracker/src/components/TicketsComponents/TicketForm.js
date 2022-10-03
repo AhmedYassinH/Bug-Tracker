@@ -1,5 +1,5 @@
 import { useState } from "react"
-
+import { useAuthContext } from '../../hooks/useAuthContext'
 
 const TicketForm = (id) => {
     
@@ -9,8 +9,17 @@ const TicketForm = (id) => {
     const [type, setType] = useState('')
     const [status, setStatus] = useState('')
 
+    const [error, setError] = useState(null)
+    
+    const { user } = useAuthContext()
+
     const handleSubmit = async(e)=>{
       e.preventDefault();
+
+      if (!user) {
+        setError('You must be logged in')
+        return
+      }
       
       const ticket = {name,project_id,type,status} ;
 
@@ -19,17 +28,21 @@ const TicketForm = (id) => {
         body: JSON.stringify(ticket),
         headers: {
           'Content-Type' : 'application/json',
+          'Authorization': `Bearer ${user.token}`
         }
       })
 
       const json = await response.json();
 
-      if(response.ok){
-        console.log(json);
+      if (!response.ok) {
+        setError(json.error)
       }
-
-
-
+      if (response.ok) {
+        setName('')
+        setType('')
+        setStatus('')
+        setError(null)
+      }
 
     }
 
@@ -45,6 +58,7 @@ const TicketForm = (id) => {
         type="text"
         onChange={(e) => setName(e.target.value)}
         value={name}
+        required
 
       />
 
@@ -65,6 +79,7 @@ const TicketForm = (id) => {
 
 
       <button>Add Ticket</button>
+      {error && <div className="error">{error}</div>}
 
     </form>
   )

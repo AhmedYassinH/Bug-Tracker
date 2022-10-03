@@ -1,14 +1,25 @@
 
 
 import { Link } from 'react-router-dom';
+import { useAuthContext } from '../../hooks/useAuthContext';
+
+
 
 const Project = ({project}) => {
 
+  const { user } = useAuthContext()
 
 
     const handleUpdate = (async()=> {
+        if (!user) {
+            return
+          }
         const response = await fetch('/api/projects/'+ project.project_id,{
             method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
+            
         })
 
         const json = await response.json();
@@ -18,8 +29,14 @@ const Project = ({project}) => {
     })
 
     const handleDelete = (async()=> {
+        if (!user) {
+            return
+          }
         const response = await fetch('/api/projects/'+ project.project_id,{
             method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
         })
 
         const json = await response.json();

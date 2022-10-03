@@ -1,5 +1,5 @@
 import { useState } from "react"
-
+import { useAuthContext } from '../../hooks/useAuthContext'
 
 const ProjectForm = () => {
 
@@ -7,8 +7,18 @@ const ProjectForm = () => {
     const [description, setDescription] = useState('')
     const [status, setStatus] = useState('')
 
+
+    const [error, setError] = useState(null)
+    
+    const { user } = useAuthContext()
+
     const handleSubmit = async(e)=>{
       e.preventDefault();
+
+      if (!user) {
+        setError('You must be logged in')
+        return
+      }
 
       const project = {name,description} ;
 
@@ -17,17 +27,21 @@ const ProjectForm = () => {
         body: JSON.stringify(project),
         headers: {
           'Content-Type' : 'application/json',
+          'Authorization': `Bearer ${user.token}`
         }
       })
 
       const json = await response.json();
 
-      if(response.ok){
-        console.log(json);
+      if (!response.ok) {
+        setError(json.error)
       }
-
-
-
+      if (response.ok) {
+        setName('')
+        setDescription('')
+        setStatus('')
+        setError(null)
+      }
 
     }
 
@@ -43,6 +57,7 @@ const ProjectForm = () => {
         type="text"
         onChange={(e) => setName(e.target.value)}
         value={name}
+        required
 
       />
 
@@ -60,6 +75,7 @@ const ProjectForm = () => {
       </select>
 
       <button>Add Project</button>
+      {error && <div className="error">{error}</div>}
 
     </form>
   )

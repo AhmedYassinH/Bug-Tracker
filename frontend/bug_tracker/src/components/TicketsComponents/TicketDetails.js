@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CommentForm from "./CommentForm";
-
+import { useAuthContext } from '../../hooks/useAuthContext';
 const TicketDetails = () => {
 
     const {id} = useParams();
@@ -9,12 +9,16 @@ const TicketDetails = () => {
     const [ticket , setTicket] = useState(null);
     const [comments , setComments] = useState(null);
 
+    const { user } = useAuthContext()
+
     const handleDelete = async()=>{}
     
     useEffect(()=>{
 
         const fetchTicket = async()=>{
-            const response = await fetch('/api/tickets/'+ id);
+            const response = await fetch('/api/tickets/'+ id, {
+                headers: {'Authorization': `Bearer ${user.token}`},
+              });
             const json    = await response.json();
 
             if(response.ok){
@@ -25,7 +29,9 @@ const TicketDetails = () => {
 
         }
         const fetchComments = async()=>{
-            const response = await fetch('/api/tickets/comments/'+ id);
+            const response = await fetch('/api/tickets/comments/'+ id, {
+                headers: {'Authorization': `Bearer ${user.token}`},
+              });
             const json    = await response.json();
 
             if(response.ok){
@@ -34,10 +40,12 @@ const TicketDetails = () => {
             }
 
         }
-        fetchTicket();
-        fetchComments();
+        if (user) {
+            fetchTicket();
+            fetchComments();
+        }
 
-    },[])
+    },[user,id])
 
 
     console.log(comments);

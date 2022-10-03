@@ -26,7 +26,7 @@ const Ticket = ({ticket}) => {
           }
     })
 
-    const handleDelete = (async()=> {
+    const handleDelete = async()=> {
         if (!user) {
             return
           }
@@ -42,7 +42,7 @@ const Ticket = ({ticket}) => {
         if (response.ok) {
             console.log(json);
           }
-    })
+    }
 
 
 

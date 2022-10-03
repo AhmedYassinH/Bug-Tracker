@@ -4,7 +4,8 @@ import { useParams } from "react-router-dom";
 import Ticket from "../TicketsComponents/Ticket";
 import TicketForm from "../TicketsComponents/TicketForm";
 import { useAuthContext } from '../../hooks/useAuthContext';
-import AddTeam from "../TicketsComponents/AddTeam";
+import AddTeamMember from "./AddTeamMember";
+import ListProjectTeam from "./ListProjectTeam";
 
 
 const ProjectDetails = () => {
@@ -73,10 +74,10 @@ const ProjectDetails = () => {
         <h3 > Project Team:</h3>
         <div className="team">
         {team && team.map((member)=>(
-            <p key={member.user_id}> {member.name}</p>
+            <ListProjectTeam key={member.user_id} member={member} />
             ))}
 
-        <AddTeam project_id={id}/>
+        <AddTeamMember project_id={id}/>
         </div>
         <br/><br/>
         <TicketForm id={id}/>

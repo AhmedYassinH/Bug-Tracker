@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useAuthContext } from '../../hooks/useAuthContext'
 
-const AddTeam = ({project_id}) => {
+const AddTeamMember = ({project_id}) => {
 
   
   const [error, setError] = useState(null)
@@ -41,7 +41,7 @@ const AddTeam = ({project_id}) => {
       return
     }
 
-    const response = await fetch('/api/projects/add-user/' + project_id,{
+    const response = await fetch('/api/projects/add-member/' + project_id,{
 
       method: 'POST',
       body: JSON.stringify({user_id}),
@@ -58,14 +58,13 @@ const AddTeam = ({project_id}) => {
       
     }
     if (response.ok) {
-      // setUserId('')
+
       setError(null)
     }
     setIsLoading(false)
 
   }
-  console.log(users)
-  console.log(user_id)
+
   return (
     <form className="create"  onSubmit={handleSubmit} >
 
@@ -91,4 +90,4 @@ const AddTeam = ({project_id}) => {
   )
 }
 
-export default AddTeam ;
+export default AddTeamMember ;

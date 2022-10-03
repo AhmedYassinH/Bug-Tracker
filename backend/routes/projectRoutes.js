@@ -10,7 +10,7 @@ const router = express.Router();
 
 const { getProjects, getTicketsAndMembers, getTeam, 
     createProject, closeProject, delProject,
-     getUsers, addUser} = require('../controllers/projectsControllers');
+     getUsers, addMember,delMember} = require('../controllers/projectsControllers');
 
 
 
@@ -24,8 +24,11 @@ router.get('/',getProjects);
 // GET all users
 router.get('/users',getUsers);
 
-// Add user to a team
-router.post('/add-user/:id',addUser);
+// Add a member to a team
+router.post('/add-member/:id',addMember);
+
+// Delete a member of a team
+router.delete('/del-member',delMember );
 
 
 

@@ -68,8 +68,8 @@ const getUsers = async(req,res) => {
 
 }
 
-// Add user to a team
-const addUser =async (req,res)=>{
+// Add member to a team
+const addMember =async (req,res)=>{
 
     const project_id = req.params.id;
     const user_id = req.body.user_id;
@@ -120,6 +120,32 @@ const addUser =async (req,res)=>{
 }
 
 
+// Delete a member fro a team
+const delMember = async(req,res) => {
+
+    const project_id = req.body.project_id ;
+    const user_id = req.body.user_id ;
+
+    const query = 'DELETE FROM relations WHERE project_id='+ project_id 
+                    + '  AND user_id =\'' + user_id + '\''
+
+    try{
+
+        if (req.user.rows[0].role != 'ADMIN'){
+            throw Error ("You Need to be an ADMIN to delete a mamber ")
+        }
+        
+        await pool.query(query);
+        
+        
+        res.json({res:"Member DELETED"});
+    }catch(err){
+        res.status(404).json({error:err.message})
+    }
+
+
+
+}
 
 
 
@@ -129,7 +155,7 @@ const getTeam = async(req,res) => {
 
     const id = req.params.id ;
 
-    const query = 'SELECT name FROM relations JOIN users ON relations.user_id = users.user_id WHERE project_id ='+id
+    const query = 'SELECT name,relations.user_id FROM relations JOIN users ON relations.user_id = users.user_id WHERE project_id ='+id
     
 
     try{
@@ -234,7 +260,8 @@ module.exports = {
     closeProject,
     delProject,
     getUsers,
-    addUser
+    addMember,
+    delMember
 
 }
 

@@ -39,15 +39,19 @@ const Signup = () => {
       />
 
     <br />
-    <div className="CheckBox">
+
+    <div className="checkrole">
+      <div className="role">
         <input type="checkbox"
         value="USER"
         onChange={(e)=> setRole(e.target.value)}
         checked = {role==='USER'? true:false }
         />
         <label> USER </label>
+      </div>
+      
 
-
+      <div className="role">
         <input type="checkbox"
         value="ADMIN"
         onChange={(e)=> setRole(e.target.value)}
@@ -55,8 +59,10 @@ const Signup = () => {
         
         />
         <label> ADMIN </label>
-        
       </div>
+
+    </div>
+     
         
       <button disabled={isLoading}>Sign up</button>
       {error && <div className="error">{error}</div>}

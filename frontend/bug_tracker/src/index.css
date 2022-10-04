@@ -138,9 +138,25 @@ form.signup, form.login {
   border-radius: 4px;
 }
 
-.CheckBox {
-  display: flex;
 
-  margin-bottom: 20px auto ;
+
+.role {
+  display: flex;
+  margin-bottom: 20px;
+  
 
 }
+.role input{
+  margin-top: 6px;
+  margin-right: 7px;
+  
+}
+
+
+
+
+.checkrole {
+  display: flex;
+  justify-content: space-evenly;
+   }
+

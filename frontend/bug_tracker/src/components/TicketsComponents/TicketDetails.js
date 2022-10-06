@@ -40,7 +40,7 @@ const TicketDetails = () => {
             }
 
         }
-        if (user) {
+        if (user?.token) {
             fetchTicket();
             fetchComments();
         }

@@ -13,7 +13,7 @@ const Home = () => {
     const { user } = useAuthContext()
 
     useEffect(()=>{
-        console.log(user.token)
+        console.log(user?.token)
         const fetchProjects = async ()=>{
             const response = await fetch('/api/projects', {
                 headers: {'Authorization': `Bearer ${user.token}`},
@@ -25,7 +25,7 @@ const Home = () => {
                 
             }}
 
-            if (user) {
+            if (user?.token) {
                 fetchProjects()
               }
     },[user])

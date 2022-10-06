@@ -25,7 +25,7 @@ const AddTeamMember = ({project_id}) => {
           }
       }
 
-      if (user) {
+      if (user?.token) {
           fetchUsers()
         }
 

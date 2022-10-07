@@ -13,7 +13,16 @@ const Login = () => {
   }
 
   return (
+    
     <form className="login" onSubmit={handleSubmit}>
+    <div className="container" style={{ display: 'flex', alignItems: 'start',marginBottom:"20px", }}>
+      <img
+        src={'/bug.png'}
+        alt=""
+        style={{ width: '30px', marginRight:'12px' }}
+      />
+      <h6 className="ml-2">Bug Tracker ™</h6>
+    </div>
       <h3>Log In</h3>
       
       <label>Email address:</label>

@@ -3,7 +3,7 @@
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
-
+import { Dropdown } from 'react-bootstrap';
 
 const Project = ({project}) => {
 
@@ -49,13 +49,23 @@ const Project = ({project}) => {
 
     return  ( 
     <div className="project-details">
+        
+        <h6>{project.name}</h6>
+        <p className="description"> {project.description} </p>
+        <p> {project.status} </p>
+        
 
-        <h4><Link to={'/project/'+project.project_id}> {project.name}</Link></h4>
-        <p><strong>Description: </strong>{project.description} </p>
-        <p><strong>Status: </strong> {project.status} </p>
 
-        <span className="update" onClick={handleUpdate} >CLOSE</span>
-        <span className = "delete" onClick={handleDelete}>DELETE</span>
+        <Dropdown >
+          <Dropdown.Toggle variant="" id="dropdown-basic"  >
+            <img style={{width:'30px'}} src="menu.png" alt="project-action"/>
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+              <Dropdown.Item onClick={handleUpdate}>CLOSE</Dropdown.Item>
+            <Dropdown.Item onClick={handleDelete}>DELETE</Dropdown.Item>
+          </Dropdown.Menu>
+    </Dropdown>
 
     </div>
      );

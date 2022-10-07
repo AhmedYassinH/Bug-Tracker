@@ -41,8 +41,8 @@ const Sidebar = () => {
 
 
     return ( 
-      <div style={{display:'flex'}}>
-          <CDBSidebar textColor="#333" backgroundColor="#f0f0f0" style={{ height: '100vh' }}>
+      <div className="sidebar" style={{display:'flex'}}>
+          <CDBSidebar textColor="white" backgroundColor="#354052" style={{ height: '100vh' }}>
           <CDBSidebarHeader prefix={<i className="fa fa-bars" style={{ paddingBottom: '15px' }}/>} >
             <div className="container" style={{ display: 'flex', alignItems: 'start' }}>
               <img
@@ -58,10 +58,7 @@ const Sidebar = () => {
           <CDBSidebarContent>
             <CDBSidebarMenu>
               <CDBSidebarMenuItem icon="th-large">Dashboard</CDBSidebarMenuItem>
-              <CDBSidebarMenuItem icon="sticky-note">Components</CDBSidebarMenuItem>
-              <CDBSidebarMenuItem icon="chart-line" iconType="solid">
-                metrics
-              </CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="sticky-note">My Tickets</CDBSidebarMenuItem>
               <CDBSidebarMenuItem>
               <Button variant="outline-danger" size="lg"  style={{marginLeft:'2em' , marginTop:'4em'}} onClick={handleClick}>Logout</Button>
               </CDBSidebarMenuItem>

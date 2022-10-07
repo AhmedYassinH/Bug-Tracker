@@ -8,9 +8,9 @@ const ProjectForm = () => {
 
 
     // The Modal
-    const {showModal:show,dispatch} = useStateContext()
+    const {showModal:show,setShowModal,setProjects} = useStateContext()
   
-    const handleClose = () => dispatch({type:'close_modal'});
+    const handleClose = () =>setShowModal(false);
 
 
 
@@ -59,8 +59,7 @@ const ProjectForm = () => {
       if (response.ok) {
         setName('')
         setDescription('')
-        
-        setError(null)
+        setProjects(json.projects);
         handleClose()
       }
 

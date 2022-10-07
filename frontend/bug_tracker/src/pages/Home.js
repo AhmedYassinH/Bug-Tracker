@@ -10,8 +10,16 @@ import { Button, Modal, Form } from "react-bootstrap";
 const Home = () => {
 
 
+    
+    // The Modal
+    const {setShowModal,projects,setProjects} = useStateContext()
 
-    const [projects , setProjects] = useState(null);
+    const handleShow = () => setShowModal(true);
+
+    
+    
+
+    
 
     const { user } = useAuthContext()
 
@@ -31,7 +39,7 @@ const Home = () => {
             if (user?.token) {
                 fetchProjects()
               }
-    },[user])
+    },[user,setProjects])
 
 
     console.log("Home.js projects",projects)
@@ -39,12 +47,6 @@ const Home = () => {
 
 
             
-    // The Modal
-    const {showModal:show,dispatch} = useStateContext()
-    
-    const handleShow = () => dispatch({type:'show_modal'});
-
-    
 
 
     

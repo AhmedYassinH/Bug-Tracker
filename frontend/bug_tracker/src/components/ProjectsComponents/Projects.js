@@ -2,13 +2,14 @@
 
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { useStateContext } from "../../context/ContextProvider";
 
 import { Dropdown } from 'react-bootstrap';
 
 const Project = ({project}) => {
 
   const { user } = useAuthContext()
-
+  const {setProjects} = useStateContext()
 
     const handleUpdate = (async()=> {
         if (!user) {
@@ -24,7 +25,7 @@ const Project = ({project}) => {
 
         const json = await response.json();
         if (response.ok) {
-            console.log(json);
+            setProjects(json.projects);
           }
     })
 
@@ -41,7 +42,7 @@ const Project = ({project}) => {
 
         const json = await response.json();
         if (response.ok) {
-            console.log(json);
+            setProjects(json.projects);
           }
     })
 

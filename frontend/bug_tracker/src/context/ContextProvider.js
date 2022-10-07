@@ -1,4 +1,4 @@
-import { createContext, useReducer,useContext } from 'react'
+import { createContext, useReducer,useContext,useState } from 'react'
 
 export const Context = createContext()
 
@@ -12,9 +12,13 @@ export const contextReducer = (state, action) => {
     return {
     showModal: false
     }
-    case 'CREATE_WORKOUT':
+    case 'SET_PROJECTS': 
+    return {
+      projects: action.payload
+    }
+    case 'CREATE_PROJECT':
       return {
-        workouts: [action.payload, ...state.workouts]
+        projects: [action.payload, ...state.projects]
       }
     case 'DELETE_WORKOUT':
       return {
@@ -26,13 +30,15 @@ export const contextReducer = (state, action) => {
 }
 
 export const ContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(contextReducer, {
-    showModal: false,
-    
-  })
+
+  const [showModal,setShowModal]=useState(false);
+  const [projects , setProjects] = useState(null);
+
 
   return (
-    <Context.Provider value={{...state, dispatch}}>
+    <Context.Provider
+     value={{showModal,setShowModal,
+            projects , setProjects}}>
       { children }
     </Context.Provider>
   )

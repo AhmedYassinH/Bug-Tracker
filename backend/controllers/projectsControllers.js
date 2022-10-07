@@ -185,6 +185,8 @@ const createProject =async (req,res)=>{
                 +(req.body.description? (', \''
                 +req.body.description+ '\''):'') 
                 + ')'
+   
+
 
     try{
 
@@ -192,10 +194,12 @@ const createProject =async (req,res)=>{
             throw Error ("You Need to an ADMIN to create a project ")
         }
         
-        const response = await pool.query(query );
+        await pool.query(query );
+        // send back all projects
+        const response = await pool.query('SELECT * from projects');
         
         
-        res.json({res:"PROJECT CREATED"});
+        res.json({projects : response.rows});
     }catch(err){
         res.status(404).json({error:err.message})
     }
@@ -214,10 +218,12 @@ const closeProject = async(req,res)=>{
             throw Error ("You Need to be an ADMIN to modify a project ")
         }
 
-        const response = await pool.query(query);
+        await pool.query(query);
+        // send back all projects
+        const response = await pool.query('SELECT * from projects');
         
        
-        res.json({res:"PROJECT UPDATED"});
+        res.json({projects : response.rows});
     }catch(err){
         res.status(404).json({error:err.message})
     }
@@ -240,10 +246,12 @@ const delProject = async(req,res)=>{
             throw Error ("You Need to be an ADMIN to delete a project ")
         }
         
-        const response = await pool.query(query);
+        await pool.query(query);
+        // send back all projects
+        const response = await pool.query('SELECT * from projects');
         
-        
-        res.json({res:"PROJECT DELETED"});
+       
+        res.json({projects : response.rows});
     }catch(err){
         res.status(404).json({error:err.message})
     }

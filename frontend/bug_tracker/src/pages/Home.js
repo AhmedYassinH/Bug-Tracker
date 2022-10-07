@@ -75,7 +75,7 @@ const Home = () => {
                 <Projects key={project.project_id} project={project}/>
                 
             ))}
-
+            <ProjectForm/>
 
 
 

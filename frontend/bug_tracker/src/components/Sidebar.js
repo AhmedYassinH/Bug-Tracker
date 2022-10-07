@@ -41,8 +41,8 @@ const Sidebar = () => {
 
 
     return ( 
-      <div className="sidebar" style={{display:'flex'}}>
-          <CDBSidebar textColor="white" backgroundColor="#354052" style={{ height: '100vh' }}>
+      <div style={{display:'flex'}}>
+          <CDBSidebar className="sidebar"  textColor="white" backgroundColor="#354052" style={{ height: '100vh' }}>
           <CDBSidebarHeader prefix={<i className="fa fa-bars" style={{ paddingBottom: '15px' }}/>} >
             <div className="container" style={{ display: 'flex', alignItems: 'start' }}>
               <img

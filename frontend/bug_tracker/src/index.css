@@ -33,9 +33,13 @@ body {
   display:grid;
   grid-template-columns: repeat(4,1fr);
   grid-column-gap: 10px ;
-  justify-items: center;
+  justify-items: start;
   align-items: center;
   padding: 20px 0;
+  
+}
+.project-details a{
+  color: black;
   
 }
 

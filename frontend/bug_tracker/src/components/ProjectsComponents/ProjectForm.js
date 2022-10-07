@@ -1,16 +1,36 @@
 import { useState } from "react"
 import { useAuthContext } from '../../hooks/useAuthContext'
+import { useStateContext } from "../../context/ContextProvider";
+
+import { Button, Modal, Form } from "react-bootstrap";
 
 const ProjectForm = () => {
 
+
+    // The Modal
+    const {showModal:show,dispatch} = useStateContext()
+  
+    const handleClose = () => dispatch({type:'close_modal'});
+
+
+
+    
+  
+
+
+
+    // the code for the form
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
-    const [status, setStatus] = useState('')
-
-
-    const [error, setError] = useState(null)
+ 
     
+    const [error, setError] = useState(null)
+
     const { user } = useAuthContext()
+
+
+    
+    
 
     const handleSubmit = async(e)=>{
       e.preventDefault();
@@ -39,8 +59,9 @@ const ProjectForm = () => {
       if (response.ok) {
         setName('')
         setDescription('')
-        setStatus('')
+        
         setError(null)
+        handleClose()
       }
 
     }
@@ -49,35 +70,47 @@ const ProjectForm = () => {
 
     
   return (
-    <form className="create" onSubmit={handleSubmit}>
-      <h3>Add a New Project:</h3>
 
-      <label>Project Name:</label>
-      <input 
-        type="text"
-        onChange={(e) => setName(e.target.value)}
-        value={name}
-        required
-
-      />
-
-      <label>Description:</label>
-      <textarea 
-        type="text"
-        onChange={(e) => setDescription(e.target.value)}
-        value={description}
-      />
-
-      <label>Status:</label>
-      <select name="drop-down" id="drop-down">
-      <option value={status} onChange={(e) => setStatus(e.target.value)}>OPEN</option>
-      <option value={status} onChange={(e) => setStatus(e.target.value)}>CLOSED</option>
-      </select>
-
-      <button>Add Project</button>
-      {error && <div className="error">{error}</div>}
-
-    </form>
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton>
+      <Modal.Title>Add a New Project:</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+      <Form >
+          <Form.Group className="mb-3" controlId="name">
+          <Form.Label>Project Name:</Form.Label>
+          <Form.Control
+              type="text"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+              required
+          />
+          </Form.Group>
+          <Form.Group
+          className="mb-3"
+          controlId="description"
+          >
+          <Form.Label>Desciption:</Form.Label>
+          <Form.Control
+              as="textarea"
+              rows={3} 
+              placeholder="Write a brief description ..."
+              onChange={(e) => setDescription(e.target.value)}
+              value={description}
+              />
+          </Form.Group>
+          {error && <div className="error">{error}</div>}
+      </Form>
+      </Modal.Body>
+      <Modal.Footer>
+      <Button variant="secondary" onClick={handleClose}>
+          Close
+      </Button>
+      <Button variant="success" onClick={handleSubmit}>
+          Add Project
+      </Button>
+      </Modal.Footer>
+  </Modal>
   )
 }
 

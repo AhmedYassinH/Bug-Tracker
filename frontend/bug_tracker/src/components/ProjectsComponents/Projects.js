@@ -50,7 +50,7 @@ const Project = ({project}) => {
     return  ( 
     <div className="project-details">
         
-        <h6>{project.name}</h6>
+        <h6><Link to={'/project/'+project.project_id}>{project.name}</Link></h6>
         <p className="description"> {project.description} </p>
         <p> {project.status} </p>
         

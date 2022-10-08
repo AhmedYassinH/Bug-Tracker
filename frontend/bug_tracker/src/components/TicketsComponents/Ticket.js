@@ -3,9 +3,14 @@
 
 import { Link } from "react-router-dom";
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { Dropdown } from 'react-bootstrap';
 
-
+import { useStateContext } from "../../context/ContextProvider";
 const Ticket = ({ticket}) => {
+
+    // Tickets Context
+    const {setTickets} = useStateContext()
+
 
     const { user } = useAuthContext()
 
@@ -40,7 +45,7 @@ const Ticket = ({ticket}) => {
 
         const json = await response.json();
         if (response.ok) {
-            console.log(json);
+          setTickets(json.tickets);
           }
     }
 
@@ -49,15 +54,25 @@ const Ticket = ({ticket}) => {
 
 
 
-    return ( 
-        <div className="project-details">
-
-        <h4><Link to={"/ticket/"+ticket.ticket_id}>{ticket.name} </Link> </h4>
-        <p><strong>Status: </strong>{ticket.status} </p>
-        <p><strong>Type: </strong> {ticket.type} </p>
-
+    return (
+    
+    <div className="ticket-details">
         
-        <span className = "delete" onClick={handleDelete}>Delete</span>
+        <h6><Link to={"/ticket/"+ticket.ticket_id}>{ticket.name} </Link></h6>
+        <p>{ticket.type} </p>
+        <p>{ticket.status} </p>
+        
+
+
+        <Dropdown >
+          <Dropdown.Toggle variant="" id="dropdown-basic"  >
+            <img style={{width:'30px'}} src="/menu.png" alt="project-action"/>
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={handleDelete}>DELETE</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
 
     </div>
      );

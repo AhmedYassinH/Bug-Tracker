@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useStateContext } from "../context/ContextProvider";
 
-import { Button, Modal, Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 const Home = () => {
 
 
@@ -63,20 +63,23 @@ const Home = () => {
         
         <div className="projects" >
             
-
-            <h3 className='title'>Projects:</h3>
-            <div className="project-details">
+            <div className='projects-title'>
+            <h3 >Projects:</h3>
+            <Button  variant="dark" onClick={handleShow}>Add Project</Button>
+            </div>
+            <div className="projects-header">
                 <p><strong>Name</strong></p>
                 <p><strong>Description</strong></p>
                 <p><strong>Status</strong></p>
-                <Button  variant="dark" onClick={handleShow}>Add Project</Button>
+                <p><strong>Actions</strong></p>
             </div>
-
+            <div className="projects-body">
             <hr style={{margin:"0px"}}/>
             {projects && projects.map((project)=>(
                 <Projects key={project.project_id} project={project}/>
                 
             ))}
+            </div>
             <ProjectForm/>
 
 

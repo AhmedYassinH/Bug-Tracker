@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react"
 import { useAuthContext } from '../../hooks/useAuthContext'
-
+import { useStateContext } from "../../context/ContextProvider";
 const AddTeamMember = ({project_id}) => {
 
-  
+  // The team context
+  const {setTeam} = useStateContext()
+
+
   const [error, setError] = useState(null)
     
   const { user } = useAuthContext()
@@ -60,6 +63,7 @@ const AddTeamMember = ({project_id}) => {
     if (response.ok) {
 
       setError(null)
+      setTeam(json.team);
     }
     setIsLoading(false)
 

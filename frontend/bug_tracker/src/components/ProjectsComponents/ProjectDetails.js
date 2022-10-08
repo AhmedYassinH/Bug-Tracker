@@ -6,13 +6,23 @@ import TicketForm from "../TicketsComponents/TicketForm";
 import { useAuthContext } from '../../hooks/useAuthContext';
 import AddTeamMember from "./AddTeamMember";
 import ListProjectTeam from "./ListProjectTeam";
+import { Button } from "react-bootstrap";
+
+import { useStateContext } from "../../context/ContextProvider";
 
 
 const ProjectDetails = () => {
 
+    // The ModalmTeam,Tickets Context
+    const {setShowModal,tickets,setTickets,team,setTeam} = useStateContext()
+
+    const handleShow = () => setShowModal(true);
+
+
+
     const {id} = useParams();
-    const [team, setTeam] = useState(null);
-    const [tickets, setTickets] = useState(null);
+    
+    
 
     const { user } = useAuthContext()
 
@@ -60,26 +70,43 @@ const ProjectDetails = () => {
 
 
     return ( 
-        <div className="home">
-        <div className="Projects">
-            <h3> Project Tickets:</h3>
+        <div className="tickets-team-comments">
+        <div className="tickets">
+            <div className="tickets-header">
+                <div style={{display:'flex',justifyContent:'space-between',padding:'0 10px'}}>
+                    <h3> Project Tickets:</h3>
+                    <Button  variant="dark" onClick={handleShow}>Add Ticket</Button>
+                </div>
+                <div className='tickets-title'>
+                    <p><strong>Name</strong></p>
+                    <p><strong>Type</strong></p>
+                    <p><strong>Status</strong></p>
+                    <div></div>
+
+                </div>
+            
+            </div>
+            
+            <div className="tickets-body">
             {tickets && tickets.map((ticket)=>(
                 <Ticket key={ticket.ticket_id} ticket={ticket}/>
                 
             ))}
+            </div>
 
 
         </div>
-        <div>
-        <h3 > Project Team:</h3>
         <div className="team">
+        <h3 className="team-header"> Project Team:</h3>
+        <div className="team-body">
         {team && team.map((member)=>(
             <ListProjectTeam key={member.user_id} member={member} />
             ))}
 
-        <AddTeamMember project_id={id}/>
         </div>
-        <br/><br/>
+        <div className="team-footer">
+            <AddTeamMember project_id={id}/>
+        </div>
         <TicketForm id={id}/>
 
         </div>

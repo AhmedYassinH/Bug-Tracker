@@ -2,13 +2,16 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { useAuthContext } from '../../hooks/useAuthContext'
+import { useStateContext } from "../../context/ContextProvider";
 
 
 
 const CommentForm = () => {
 
   const {id} = useParams();
+  const {comments,setComments} = useStateContext()
   const [comment,setComment] = useState('');
+  console.log('here is past comments',comments)
 
   const [error, setError] = useState(null)
     
@@ -42,22 +45,26 @@ const CommentForm = () => {
     if (response.ok) {
       setComment('')
       setError(null)
+      setComments(json.comments);
+
     }
   }
 
     
     return ( 
-        <form className="create" onSubmit={handleSubmit}>
+        <form className="create-comment" onSubmit={handleSubmit}>
         <h3>Create a New Comment:</h3>
   
         <label>Comment:</label>
+        <br />
         <textarea 
         value={comment}
          onChange={(e)=> setComment(e.target.value)}
-           cols="30" rows="10"
+           rows="5"
            required
+           style={{width:'800px', minWidth:'200px',justifySelf:'center'}}
            ></textarea>
-        
+        <br />
         <button>Add Comment</button>
         {error && <div className="error">{error}</div>}
   

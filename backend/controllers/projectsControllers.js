@@ -80,7 +80,7 @@ const addMember =async (req,res)=>{
                        + ')'
 
     const check_query = 'SELECT relations.user_id FROM relations JOIN users ON relations.user_id = users.user_id WHERE project_id ='+project_id
-    
+    const membersQuery = 'SELECT * FROM relations JOIN users ON relations.user_id = users.user_id WHERE project_id =' + project_id
     try{
         
         const check_response = await pool.query(check_query );
@@ -108,11 +108,11 @@ const addMember =async (req,res)=>{
         
 
 
-        const response = await pool.query(add_query);
+        await pool.query(add_query);
 
+        const team = await pool.query(membersQuery);
         
-        
-        res.json({res:"Added user to the team"});
+        res.json({team : team.rows});
     }catch(err){
         res.status(404).json({error:err.message})
     }
@@ -129,6 +129,9 @@ const delMember = async(req,res) => {
     const query = 'DELETE FROM relations WHERE project_id='+ project_id 
                     + '  AND user_id =\'' + user_id + '\''
 
+
+    const membersQuery = 'SELECT * FROM relations JOIN users ON relations.user_id = users.user_id WHERE project_id =' + project_id
+    
     try{
 
         if (req.user.rows[0].role != 'ADMIN'){
@@ -137,8 +140,9 @@ const delMember = async(req,res) => {
         
         await pool.query(query);
         
+        const team = await pool.query(membersQuery);
         
-        res.json({res:"Member DELETED"});
+        res.json({team : team.rows});
     }catch(err){
         res.status(404).json({error:err.message})
     }

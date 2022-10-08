@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CommentForm from "./CommentForm";
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { useStateContext } from "../../context/ContextProvider";
 const TicketDetails = () => {
 
     const {id} = useParams();
 
     const [ticket , setTicket] = useState(null);
-    const [comments , setComments] = useState(null);
+    
 
     const { user } = useAuthContext()
+    const {comments,setComments} = useStateContext()
 
     const handleDelete = async()=>{}
     
@@ -52,10 +54,10 @@ const TicketDetails = () => {
 
     return ( 
         
-        <div className="home">
-        <div className="Projects">
+        <div className="ticket-comments">
+        <div className="ticket">
         <h3> Ticket:</h3>
-        <div className="project-details">
+        <div className="ticket-body">
         {ticket && (
         <div>
         <h4>{ticket.name}  </h4>
@@ -66,20 +68,20 @@ const TicketDetails = () => {
         )}
 
         </div>
-        <br /> <br />
-        <h3> Comments:</h3>
+        </div>
+        <div className="comments">
+        <h3 className='comments-header'> Comments:</h3>
+        <div className="comments-body">
         {comments && comments.map((comment)=>(
-        <div key={comment.comment_id} className="project-details">
-            <p><strong>Comment: </strong></p>
-            <p>{comment.comment}</p>
+        <div key={comment.comment_id} className='comment' >
+            <p style={{width:'60%'}}>{comment.comment}</p>
             {comment.name && <p><strong>By: </strong> {comment.name}</p>}
         </div>))}
         </div>
-
-        <div>
-            <CommentForm/>
+        
+                <CommentForm className='comments-form'/>
+        
         </div>
-
 
 
         </div>

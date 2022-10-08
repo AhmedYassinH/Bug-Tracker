@@ -14,8 +14,9 @@ export const authReducer = (state, action) => {
 }
 
 export const AuthContextProvider = ({ children }) => {
+  let user
   const [state, dispatch] = useReducer(authReducer, { 
-    user: null
+    user
   })
 
   useEffect(() => {
@@ -24,8 +25,9 @@ export const AuthContextProvider = ({ children }) => {
     if (user) {
       dispatch({ type: 'LOGIN', payload: user }) 
     }
+    console.log("Rendering the user token from loacal storage")
   }, [])
-
+  
   console.log('AuthContext state:', state)
   
   return (

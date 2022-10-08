@@ -31,10 +31,10 @@ const getComments = async(req,res)=>{
 
     try{
         
-        const response = await pool.query('SELECT * from comments LEFT JOIN users ON comments.user_id = users.user_id WHERE ticket_id='+ id)
+        const comments = await pool.query('SELECT * from comments LEFT JOIN users ON comments.user_id = users.user_id WHERE ticket_id='+ id)
         
         
-        res.json({comments : response.rows});
+        res.json({comments : comments.rows});
 
     }catch(err){
         res.status(404).json({error:err.message})
@@ -53,14 +53,14 @@ const createComment = async(req,res)=>{
     + id + ','
     + '\'' + user_id + '\'' 
     +')' ;
-    console.log('I am Here',user_id)
+
 
     try{
 
-    const response = await pool.query(query);
+    await pool.query(query);
                                 
-
-    res.json({res:"COMMENT CREATED"});
+    const comments = await pool.query('SELECT * from comments LEFT JOIN users ON comments.user_id = users.user_id WHERE ticket_id='+ id)
+    res.json({comments : comments.rows});
     }catch(err){
     res.status(404).json({error:err.message}) ;
     }
@@ -95,18 +95,19 @@ const createTicket = async(req,res)=>{
                 +(req.body.type? (', \''+req.body.type+ '\''):'') 
                 + ')'
             
-
-
+    const ticketsQuery = 'SELECT * FROM tickets where project_id='+req.body.project_id;
+    console.log('request', query)
     try{
         
         if (req.user.rows[0].role != 'ADMIN'){
             throw Error ("You Need to an ADMIN to create a ticket ")
         }
 
-        const response = await pool.query(query);
+        await pool.query(query);
                                         
+        const tickets = await pool.query(ticketsQuery);
         
-        res.json({res:"TICKET CREATED"});
+        res.json({tickets : tickets.rows});
     }catch(err){
         res.status(404).json({error:err.message}) ;
     }
@@ -127,16 +128,16 @@ const updateTicket = async(req,res)=>{
     +(req.body.user_id? ('user_id =  \''+req.body.user_id+ '\' ,'):'') 
 
     query = query.substring(0,query.length-1) + 'WHERE ticket_id='+ id ;
-    
+    const ticketsQuery = 'SELECT * FROM tickets WHERE project_id IN (SELECT project_id FROM tickets where ticket_id='+id+')';
     
 
     try{
         
 
-        const response = await pool.query(query);
+        await pool.query(query);
+        const tickets = await pool.query(ticketsQuery);
         
-        
-        res.json({res:"TICKET UPDATED"});
+        res.json({tickets : tickets.rows});
     }catch(err){
         res.status(404).json({error:err.message});
     }
@@ -150,6 +151,9 @@ const delTicket = async(req,res)=>{
 
     const query = 'DELETE FROM tickets WHERE ticket_id = ' + id ;
     
+
+    const project_id_query = 'SELECT project_id FROM tickets where ticket_id='+id
+    
     
 
     try{
@@ -157,10 +161,14 @@ const delTicket = async(req,res)=>{
             throw Error ("You Need to an ADMIN to delete a ticket ")
         }
         
-        const response = await pool.query(query);
+        const project_id = await pool.query(project_id_query);
+        await pool.query(query);
+        const ticketsQuery = 'SELECT * FROM tickets WHERE project_id ='+ project_id.rows[0].project_id;
         
+        const tickets = await pool.query(ticketsQuery);
+
         
-        res.json({res:"TICKET DELETED"});
+        res.json({tickets : tickets.rows});
     }catch(err){
         res.status(404).json({error:err.message})
     }

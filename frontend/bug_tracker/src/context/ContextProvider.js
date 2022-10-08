@@ -33,12 +33,18 @@ export const ContextProvider = ({ children }) => {
 
   const [showModal,setShowModal]=useState(false);
   const [projects , setProjects] = useState(null);
+  const [tickets, setTickets] = useState(null);
+  const [team, setTeam] = useState(null);
+  const [comments , setComments] = useState(null);
 
 
   return (
     <Context.Provider
      value={{showModal,setShowModal,
-            projects , setProjects}}>
+            projects , setProjects,
+            tickets, setTickets,
+            team, setTeam,
+            comments , setComments}}>
       { children }
     </Context.Provider>
   )

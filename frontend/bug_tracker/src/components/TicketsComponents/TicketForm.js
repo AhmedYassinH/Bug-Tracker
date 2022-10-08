@@ -1,7 +1,15 @@
 import { useState } from "react"
 import { useAuthContext } from '../../hooks/useAuthContext'
 
+import { useStateContext } from "../../context/ContextProvider";
+import { Button, Modal, Form } from "react-bootstrap";
+import Select from 'react-select'
 const TicketForm = (id) => {
+
+  
+    // The Modal
+    const {showModal:show,setShowModal,setTickets} = useStateContext()
+    const handleClose = () =>setShowModal(false);
     
     const project_id = id.id
 
@@ -13,6 +21,18 @@ const TicketForm = (id) => {
     
     const { user } = useAuthContext()
 
+    // Select Options
+    const statusOptions = [
+      { value: 'OPEN', label: 'OPEN' },
+      { value: 'In Progress', label: 'In Progress' },
+      { value: 'Resolved', label: 'Resolved' },
+      { value: 'CLOSED', label: 'CLOSED' }
+    ];
+    const typeOptions = [
+      { value: 'TASK', label: 'TASK' },
+      { value: 'ISSUE', label: 'ISSUE' }
+    ];
+
     const handleSubmit = async(e)=>{
       e.preventDefault();
 
@@ -22,6 +42,7 @@ const TicketForm = (id) => {
       }
       
       const ticket = {name,project_id,type,status} ;
+      console.log('Hey Ahmed I am here waiting for ya', ticket)
 
       const response = await fetch('/api/tickets',{
         method: 'POST',
@@ -42,6 +63,8 @@ const TicketForm = (id) => {
         setType('')
         setStatus('')
         setError(null)
+        setTickets(json.tickets);
+        handleClose()
       }
 
     }
@@ -50,38 +73,53 @@ const TicketForm = (id) => {
 
     
   return (
-    <form className="create" onSubmit={handleSubmit}>
-      <h3>Create a New Ticket:</h3>
-
-      <label>Ticket Name:</label>
-      <input 
-        type="text"
-        onChange={(e) => setName(e.target.value)}
-        value={name}
-        required
-
-      />
-
-     <label>Status:</label>
-      <select name="drop-down" id="drop-down">
-      <option value={status} onChange={(e) => setStatus(e.target.value)}>OPEN</option>
-      <option value={status} onChange={(e) => setStatus(e.target.value)}>In Progress</option>
-      <option value={status} onChange={(e) => setStatus(e.target.value)}>Resolved</option>
-      <option value={status} onChange={(e) => setStatus(e.target.value)}>CLOSED</option>
-      </select>
-
-      <label>Type:</label>
-      <select name="drop-down" id="drop-down">
-      <option value={type} onChange={(e) => setType(e.target.value)}>Task</option>
-      <option value={type} onChange={(e) => setType(e.target.value)}>Issue</option>
-      </select>
-
-
-
-      <button>Add Ticket</button>
-      {error && <div className="error">{error}</div>}
-
-    </form>
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton>
+      <Modal.Title>Create a New Ticket:</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+      <Form >
+          <Form.Group className="mb-3" controlId="name">
+          <Form.Label>Ticket Name:</Form.Label>
+          <Form.Control
+              type="text"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+              required
+          />
+          </Form.Group>
+          <Form.Group
+          className="mb-3"
+          controlId="status"
+          >
+          <Form.Label>Status:</Form.Label>
+            <Select
+              options={statusOptions}
+              onChange={(choice)=> setStatus(choice.value)}
+              />
+          </Form.Group>
+          <Form.Group
+          className="mb-3"
+          controlId="type"
+          >
+          <Form.Label>Type:</Form.Label>
+          <Select
+              options={typeOptions}
+              onChange={(choice)=> setType(choice.value)}
+              />
+          </Form.Group>
+          {error && <div className="error">{error}</div>}
+      </Form>
+      </Modal.Body>
+      <Modal.Footer>
+      <Button variant="secondary" onClick={handleClose}>
+          Close
+      </Button>
+      <Button variant="success" onClick={handleSubmit}>
+          Add Ticket
+      </Button>
+      </Modal.Footer>
+    </Modal>
   )
 }
 

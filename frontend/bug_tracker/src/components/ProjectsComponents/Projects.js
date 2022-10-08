@@ -59,7 +59,7 @@ const Project = ({project}) => {
 
         <Dropdown >
           <Dropdown.Toggle variant="" id="dropdown-basic"  >
-            <img style={{width:'30px'}} src="menu.png" alt="project-action"/>
+            <img style={{width:'30px'}} src="/menu.png" alt="project-action"/>
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
